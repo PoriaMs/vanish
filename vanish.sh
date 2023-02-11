@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# proxy_add="socks://10.211.55.2:7890"
 log="/tmp/vanish.log"
 
 loging(){
@@ -70,9 +69,9 @@ mix_proxy(){
 }
 
 # 测试功能
-tcp_iner(){
+tcp_inner(){
     nohup gost -L "red://:12346?sniffing=true&tproxy=true" -F $inner_proxy_add?so_mark=100 >> $log 2>&1 &
-    iptables -t mangle -A GOST -p tcp -d $route -j REDIRECT --to-port 12346
+    iptables -t mangle -A GOST -p tcp -d $route -j TPROXY --tproxy-mark 0x1/0x1 --on-ip 127.0.0.1 --on-port 12346
 
     loging "inner mode ..."
 }
@@ -205,9 +204,9 @@ if [ "$2" ]; then
 fi
 
 if [ "$1" = "inner" ]; then
-    $inner_proxy_add=$2
-    $route=$3
-    inner
+    inner_proxy_add=$2
+    route=$3
+    tcp_inner
     exit 0
 fi
 
