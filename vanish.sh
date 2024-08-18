@@ -31,7 +31,10 @@ mix_proxy(){
 
     iptables -t mangle -N GOST
     iptables -t mangle -A GOST -p tcp -d 127.0.0.0/8 -j RETURN
+    iptables -t mangle -A GOST -p tcp -d 10.0.0.0/8 -j RETURN
+    iptables -t mangle -A GOST -p tcp -d 172.16.0.0/12 -j RETURN
     iptables -t mangle -A GOST -p tcp -d 192.168.0.0/16 -j RETURN
+    iptables -t mangle -A GOST -p tcp -d 255.255.255.255/32 -j RETURN
     iptables -t mangle -A GOST -p tcp -m mark --mark 100 -j RETURN 
     iptables -t mangle -A GOST -p tcp -j TPROXY --tproxy-mark 0x1/0x1 --on-port 12345 
     iptables -t mangle -A PREROUTING -p tcp -j GOST
@@ -39,6 +42,9 @@ mix_proxy(){
     # Only for local mode
     iptables -t mangle -N GOST_LOCAL
     iptables -t mangle -A GOST_LOCAL -p tcp -d 127.0.0.0/8 -j RETURN
+    iptables -t mangle -A GOST_LOCAL -p tcp -d 10.0.0.0/8 -j RETURN
+    iptables -t mangle -A GOST_LOCAL -p tcp -d 172.16.0.0/12 -j RETURN
+    iptables -t mangle -A GOST_LOCAL -p tcp -d 192.168.0.0/16 -j RETURN
     iptables -t mangle -A GOST_LOCAL -p tcp -d 255.255.255.255/32 -j RETURN
     iptables -t mangle -A GOST_LOCAL -p tcp -d 192.168.0.0/16 -j RETURN
     iptables -t mangle -A GOST_LOCAL -p tcp -m mark --mark 100 -j RETURN 
@@ -73,14 +79,18 @@ mix_proxy(){
     ip6tables -t mangle -A GOST_LOCAL -p tcp -j MARK --set-mark 1
     ip6tables -t mangle -A OUTPUT -p tcp -j GOST_LOCAL
 
+
+
     # ipv4
     # ip rule add fwmark 1 lookup 100
     # ip route add local default dev lo table 100
 
     # iptables -t mangle -N GOST
     iptables -t mangle -A GOST -p udp -d 127.0.0.0/8 -j RETURN
-    iptables -t mangle -A GOST -p udp -d 255.255.255.255/32 -j RETURN
+    iptables -t mangle -A GOST -p udp -d 10.0.0.0/8 -j RETURN
+    iptables -t mangle -A GOST -p udp -d 172.16.0.0/12 -j RETURN
     iptables -t mangle -A GOST -p udp -d 192.168.0.0/16 -j RETURN
+    iptables -t mangle -A GOST -p udp -d 255.255.255.255/32 -j RETURN
     iptables -t mangle -A GOST -p udp -m mark --mark 100 -j RETURN 
     iptables -t mangle -A GOST -p udp -j TPROXY --tproxy-mark 0x1/0x1 --on-port 12345 
     iptables -t mangle -A PREROUTING -p udp -j GOST
@@ -88,8 +98,10 @@ mix_proxy(){
     # Only for local mode
     # iptables -t mangle -N GOST_LOCAL
     iptables -t mangle -A GOST_LOCAL -p udp -d 127.0.0.0/8 -j RETURN
-    iptables -t mangle -A GOST_LOCAL -p udp -d 255.255.255.255/32 -j RETURN
+    iptables -t mangle -A GOST_LOCAL -p udp -d 10.0.0.0/8 -j RETURN
+    iptables -t mangle -A GOST_LOCAL -p udp -d 172.16.0.0/12 -j RETURN
     iptables -t mangle -A GOST_LOCAL -p udp -d 192.168.0.0/16 -j RETURN
+    iptables -t mangle -A GOST_LOCAL -p udp -d 255.255.255.255/32 -j RETURN
     iptables -t mangle -A GOST_LOCAL -p udp -m mark --mark 100 -j RETURN 
     iptables -t mangle -A GOST_LOCAL -p udp -j MARK --set-mark 1
     iptables -t mangle -A OUTPUT -p udp -j GOST_LOCAL
@@ -142,7 +154,10 @@ tcp_proxy(){
 
     iptables -t mangle -N GOST
     iptables -t mangle -A GOST -p tcp -d 127.0.0.0/8 -j RETURN
+    iptables -t mangle -A GOST -p tcp -d 10.0.0.0/8 -j RETURN
+    iptables -t mangle -A GOST -p tcp -d 172.16.0.0/12 -j RETURN
     iptables -t mangle -A GOST -p tcp -d 192.168.0.0/16 -j RETURN
+    iptables -t mangle -A GOST -p tcp -d 255.255.255.255/32 -j RETURN
     iptables -t mangle -A GOST -p tcp -m mark --mark 100 -j RETURN 
     iptables -t mangle -A GOST -p tcp -j TPROXY --tproxy-mark 0x1/0x1 --on-port 12345 
     iptables -t mangle -A PREROUTING -p tcp -j GOST
@@ -150,6 +165,9 @@ tcp_proxy(){
     # Only for local mode
     iptables -t mangle -N GOST_LOCAL
     iptables -t mangle -A GOST_LOCAL -p tcp -d 127.0.0.0/8 -j RETURN
+    iptables -t mangle -A GOST_LOCAL -p tcp -d 10.0.0.0/8 -j RETURN
+    iptables -t mangle -A GOST_LOCAL -p tcp -d 172.16.0.0/12 -j RETURN
+    iptables -t mangle -A GOST_LOCAL -p tcp -d 192.168.0.0/16 -j RETURN
     iptables -t mangle -A GOST_LOCAL -p tcp -d 255.255.255.255/32 -j RETURN
     iptables -t mangle -A GOST_LOCAL -p tcp -d 192.168.0.0/16 -j RETURN
     iptables -t mangle -A GOST_LOCAL -p tcp -m mark --mark 100 -j RETURN 
@@ -196,8 +214,10 @@ udp_proxy(){
 
     iptables -t mangle -N GOST
     iptables -t mangle -A GOST -p udp -d 127.0.0.0/8 -j RETURN
-    iptables -t mangle -A GOST -p udp -d 255.255.255.255/32 -j RETURN
+    iptables -t mangle -A GOST -p udp -d 10.0.0.0/8 -j RETURN
+    iptables -t mangle -A GOST -p udp -d 172.16.0.0/12 -j RETURN
     iptables -t mangle -A GOST -p udp -d 192.168.0.0/16 -j RETURN
+    iptables -t mangle -A GOST -p udp -d 255.255.255.255/32 -j RETURN
     iptables -t mangle -A GOST -p udp -m mark --mark 100 -j RETURN 
     iptables -t mangle -A GOST -p udp -j TPROXY --tproxy-mark 0x1/0x1 --on-port 12345 
     iptables -t mangle -A PREROUTING -p udp -j GOST
@@ -205,8 +225,10 @@ udp_proxy(){
     # Only for local mode
     iptables -t mangle -N GOST_LOCAL
     iptables -t mangle -A GOST_LOCAL -p udp -d 127.0.0.0/8 -j RETURN
-    iptables -t mangle -A GOST_LOCAL -p udp -d 255.255.255.255/32 -j RETURN
+    iptables -t mangle -A GOST_LOCAL -p udp -d 10.0.0.0/8 -j RETURN
+    iptables -t mangle -A GOST_LOCAL -p udp -d 172.16.0.0/12 -j RETURN
     iptables -t mangle -A GOST_LOCAL -p udp -d 192.168.0.0/16 -j RETURN
+    iptables -t mangle -A GOST_LOCAL -p udp -d 255.255.255.255/32 -j RETURN
     iptables -t mangle -A GOST_LOCAL -p udp -m mark --mark 100 -j RETURN 
     iptables -t mangle -A GOST_LOCAL -p udp -j MARK --set-mark 1
     iptables -t mangle -A OUTPUT -p udp -j GOST_LOCAL
